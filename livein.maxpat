@@ -7,7 +7,7 @@
 			"revision" : 4
 		}
 ,
-		"rect" : [ 278.0, 62.0, 526.0, 702.0 ],
+		"rect" : [ 547.0, 142.0, 640.0, 480.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -28,26 +28,15 @@
 		"tags" : "",
 		"boxes" : [ 			{
 				"box" : 				{
-					"comment" : "",
-					"id" : "obj-11",
-					"maxclass" : "outlet",
-					"numinlets" : 1,
-					"numoutlets" : 0,
-					"patching_rect" : [ 226.0, 556.0, 25.0, 25.0 ]
-				}
-
-			}
-, 			{
-				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
-					"id" : "obj-4",
+					"id" : "obj-2",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 8,
 					"outlettype" : [ "", "", "", "int", "int", "int", "int", "int" ],
-					"patching_rect" : [ 226.0, 502.0, 118.0, 20.0 ],
-					"text" : "midiselect @note all"
+					"patching_rect" : [ 298.142853, 282.0, 263.0, 20.0 ],
+					"text" : "midiselect @ctl 16 17 18 19 20 21 22 23 @ch 1"
 				}
 
 			}
@@ -55,13 +44,24 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
-					"id" : "obj-5",
+					"id" : "obj-1",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "int" ],
-					"patching_rect" : [ 226.0, 460.0, 105.0, 20.0 ],
-					"text" : "midiin Launchpad"
+					"patching_rect" : [ 298.142853, 228.0, 212.0, 20.0 ],
+					"text" : "midiin \"IAC Driver from Abeloton Live\""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"comment" : "",
+					"id" : "obj-12",
+					"maxclass" : "outlet",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 357.0, 409.0, 25.0, 25.0 ]
 				}
 
 			}
@@ -74,7 +74,7 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 226.0, 364.0, 60.0, 20.0 ],
+					"patching_rect" : [ 298.142853, 87.0, 60.0, 20.0 ],
 					"text" : "loadbang"
 				}
 
@@ -88,8 +88,8 @@
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 226.0, 432.0, 94.0, 18.0 ],
-					"text" : "port Launchpad"
+					"patching_rect" : [ 298.142853, 148.0, 194.0, 18.0 ],
+					"text" : "port \"IAC Driver from Ableton Live\""
 				}
 
 			}
@@ -97,12 +97,12 @@
 				"box" : 				{
 					"fontname" : "Arial",
 					"fontsize" : 12.0,
-					"id" : "obj-8",
+					"id" : "obj-7",
 					"maxclass" : "newobj",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 226.0, 401.0, 71.0, 20.0 ],
+					"patching_rect" : [ 298.142853, 117.0, 71.0, 20.0 ],
 					"text" : "metro 2000"
 				}
 
@@ -110,7 +110,16 @@
  ],
 		"lines" : [ 			{
 				"patchline" : 				{
-					"destination" : [ "obj-8", 0 ],
+					"destination" : [ "obj-2", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-7", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-10", 0 ]
@@ -119,19 +128,10 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-11", 0 ],
+					"destination" : [ "obj-12", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-4", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-4", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-5", 0 ]
+					"source" : [ "obj-2", 2 ]
 				}
 
 			}
@@ -140,16 +140,7 @@
 					"destination" : [ "obj-9", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"source" : [ "obj-8", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-5", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-9", 0 ]
+					"source" : [ "obj-7", 0 ]
 				}
 
 			}

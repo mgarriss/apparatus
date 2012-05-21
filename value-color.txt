@@ -1,0 +1,8 @@
+0, red low;
+1, red full;
+2, amber low;
+3, amber full;
+4, yellow full;
+5, green low;
+6, green full;
+7, green flash;
