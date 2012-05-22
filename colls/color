@@ -1,0 +1,12 @@
+amber.low, 29;
+amber.full, 62;
+amber.flash, 59;
+yellow.low, 62;
+yellow.full, 62;
+yellow.flash, 58;
+red.low, 13;
+red.full, 15;
+red.flash, 11;
+green.low, 28;
+green.full, 60;
+green.flash, 56;
