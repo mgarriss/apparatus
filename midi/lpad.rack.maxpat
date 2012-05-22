@@ -7,7 +7,7 @@
 			"revision" : 4
 		}
 ,
-		"rect" : [ 69.0, 44.0, 1142.0, 750.0 ],
+		"rect" : [ 69.0, 70.0, 1142.0, 724.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -737,7 +737,7 @@
  ],
 						"dependency_cache" : [ 							{
 								"name" : "change-estimate",
-								"bootpath" : "/Users/mgarriss/develop/max",
+								"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 								"type" : "TEXT",
 								"implicit" : 1
 							}
@@ -746,16 +746,16 @@
 ,
 					"patching_rect" : [ 413.866028, 629.221252, 93.0, 20.0 ],
 					"saved_object_attributes" : 					{
-						"fontface" : 0,
-						"fontsize" : 12.0,
-						"default_fontface" : 0,
-						"digest" : "",
-						"default_fontname" : "Arial",
 						"fontname" : "Arial",
 						"tags" : "",
 						"default_fontsize" : 12.0,
 						"description" : "",
-						"globalpatchername" : ""
+						"globalpatchername" : "",
+						"fontface" : 0,
+						"fontsize" : 12.0,
+						"default_fontface" : 0,
+						"digest" : "",
+						"default_fontname" : "Arial"
 					}
 ,
 					"text" : "p update-guess"
@@ -794,7 +794,7 @@
 							"revision" : 4
 						}
 ,
-						"rect" : [ 414.0, 77.0, 640.0, 480.0 ],
+						"rect" : [ 414.0, 103.0, 640.0, 454.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -813,6 +813,7 @@
 						"description" : "",
 						"digest" : "",
 						"tags" : "",
+						"visible" : 1,
 						"boxes" : [ 							{
 								"box" : 								{
 									"comment" : "",
@@ -980,6 +981,299 @@
 							}
 , 							{
 								"box" : 								{
+									"coll_data" : 									{
+										"count" : 72,
+										"data" : [ 											{
+												"key" : 0,
+												"value" : [ 127, 16 ]
+											}
+, 											{
+												"key" : 1,
+												"value" : [ 67, 16 ]
+											}
+, 											{
+												"key" : 2,
+												"value" : [ 66, 16 ]
+											}
+, 											{
+												"key" : 3,
+												"value" : [ 65, 16 ]
+											}
+, 											{
+												"key" : 4,
+												"value" : [ 1, 16 ]
+											}
+, 											{
+												"key" : 5,
+												"value" : [ 2, 16 ]
+											}
+, 											{
+												"key" : 6,
+												"value" : [ 3, 16 ]
+											}
+, 											{
+												"key" : 7,
+												"value" : [ 4, 16 ]
+											}
+, 											{
+												"key" : 8,
+												"value" : [ 0, 16 ]
+											}
+, 											{
+												"key" : 16,
+												"value" : [ 127, 17 ]
+											}
+, 											{
+												"key" : 17,
+												"value" : [ 67, 17 ]
+											}
+, 											{
+												"key" : 18,
+												"value" : [ 66, 17 ]
+											}
+, 											{
+												"key" : 19,
+												"value" : [ 65, 17 ]
+											}
+, 											{
+												"key" : 20,
+												"value" : [ 1, 17 ]
+											}
+, 											{
+												"key" : 21,
+												"value" : [ 2, 17 ]
+											}
+, 											{
+												"key" : 22,
+												"value" : [ 3, 17 ]
+											}
+, 											{
+												"key" : 23,
+												"value" : [ 4, 17 ]
+											}
+, 											{
+												"key" : 24,
+												"value" : [ 0, 17 ]
+											}
+, 											{
+												"key" : 32,
+												"value" : [ 127, 18 ]
+											}
+, 											{
+												"key" : 33,
+												"value" : [ 67, 18 ]
+											}
+, 											{
+												"key" : 34,
+												"value" : [ 66, 18 ]
+											}
+, 											{
+												"key" : 35,
+												"value" : [ 65, 18 ]
+											}
+, 											{
+												"key" : 36,
+												"value" : [ 1, 18 ]
+											}
+, 											{
+												"key" : 37,
+												"value" : [ 2, 18 ]
+											}
+, 											{
+												"key" : 38,
+												"value" : [ 3, 18 ]
+											}
+, 											{
+												"key" : 39,
+												"value" : [ 4, 18 ]
+											}
+, 											{
+												"key" : 40,
+												"value" : [ 0, 18 ]
+											}
+, 											{
+												"key" : 48,
+												"value" : [ 127, 19 ]
+											}
+, 											{
+												"key" : 49,
+												"value" : [ 67, 19 ]
+											}
+, 											{
+												"key" : 50,
+												"value" : [ 66, 19 ]
+											}
+, 											{
+												"key" : 51,
+												"value" : [ 65, 19 ]
+											}
+, 											{
+												"key" : 52,
+												"value" : [ 1, 19 ]
+											}
+, 											{
+												"key" : 53,
+												"value" : [ 2, 19 ]
+											}
+, 											{
+												"key" : 54,
+												"value" : [ 3, 19 ]
+											}
+, 											{
+												"key" : 55,
+												"value" : [ 4, 19 ]
+											}
+, 											{
+												"key" : 56,
+												"value" : [ 0, 19 ]
+											}
+, 											{
+												"key" : 64,
+												"value" : [ 127, 20 ]
+											}
+, 											{
+												"key" : 65,
+												"value" : [ 67, 20 ]
+											}
+, 											{
+												"key" : 66,
+												"value" : [ 66, 20 ]
+											}
+, 											{
+												"key" : 67,
+												"value" : [ 65, 20 ]
+											}
+, 											{
+												"key" : 68,
+												"value" : [ 1, 20 ]
+											}
+, 											{
+												"key" : 69,
+												"value" : [ 2, 20 ]
+											}
+, 											{
+												"key" : 70,
+												"value" : [ 3, 20 ]
+											}
+, 											{
+												"key" : 71,
+												"value" : [ 4, 20 ]
+											}
+, 											{
+												"key" : 72,
+												"value" : [ 0, 20 ]
+											}
+, 											{
+												"key" : 80,
+												"value" : [ 127, 21 ]
+											}
+, 											{
+												"key" : 81,
+												"value" : [ 67, 21 ]
+											}
+, 											{
+												"key" : 82,
+												"value" : [ 66, 21 ]
+											}
+, 											{
+												"key" : 83,
+												"value" : [ 65, 21 ]
+											}
+, 											{
+												"key" : 84,
+												"value" : [ 1, 21 ]
+											}
+, 											{
+												"key" : 85,
+												"value" : [ 2, 21 ]
+											}
+, 											{
+												"key" : 86,
+												"value" : [ 3, 21 ]
+											}
+, 											{
+												"key" : 87,
+												"value" : [ 4, 21 ]
+											}
+, 											{
+												"key" : 88,
+												"value" : [ 0, 21 ]
+											}
+, 											{
+												"key" : 96,
+												"value" : [ 127, 22 ]
+											}
+, 											{
+												"key" : 97,
+												"value" : [ 67, 22 ]
+											}
+, 											{
+												"key" : 98,
+												"value" : [ 66, 22 ]
+											}
+, 											{
+												"key" : 99,
+												"value" : [ 65, 22 ]
+											}
+, 											{
+												"key" : 100,
+												"value" : [ 1, 22 ]
+											}
+, 											{
+												"key" : 101,
+												"value" : [ 2, 22 ]
+											}
+, 											{
+												"key" : 102,
+												"value" : [ 3, 22 ]
+											}
+, 											{
+												"key" : 103,
+												"value" : [ 4, 22 ]
+											}
+, 											{
+												"key" : 104,
+												"value" : [ 0, 22 ]
+											}
+, 											{
+												"key" : 112,
+												"value" : [ 127, 23 ]
+											}
+, 											{
+												"key" : 113,
+												"value" : [ 67, 23 ]
+											}
+, 											{
+												"key" : 114,
+												"value" : [ 66, 23 ]
+											}
+, 											{
+												"key" : 115,
+												"value" : [ 65, 23 ]
+											}
+, 											{
+												"key" : 116,
+												"value" : [ 1, 23 ]
+											}
+, 											{
+												"key" : 117,
+												"value" : [ 2, 23 ]
+											}
+, 											{
+												"key" : 118,
+												"value" : [ 3, 23 ]
+											}
+, 											{
+												"key" : 119,
+												"value" : [ 4, 23 ]
+											}
+, 											{
+												"key" : 120,
+												"value" : [ 0, 23 ]
+											}
+ ]
+									}
+,
 									"fontname" : "Arial",
 									"fontsize" : 12.0,
 									"id" : "obj-18",
@@ -989,7 +1283,7 @@
 									"outlettype" : [ "", "", "", "" ],
 									"patching_rect" : [ 245.345123, 102.72998, 118.0, 20.0 ],
 									"saved_object_attributes" : 									{
-										"embed" : 0
+										"embed" : 1
 									}
 ,
 									"text" : "coll lpad-to-live-map"
@@ -1174,8 +1468,8 @@
 							}
  ],
 						"dependency_cache" : [ 							{
-								"name" : "lpad-to-live-map.txt",
-								"bootpath" : "/Users/mgarriss/develop/max",
+								"name" : "lpad-to-live.coll",
+								"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 								"type" : "TEXT",
 								"implicit" : 1
 							}
@@ -1184,16 +1478,16 @@
 ,
 					"patching_rect" : [ 413.866028, 544.143921, 124.0, 20.0 ],
 					"saved_object_attributes" : 					{
-						"fontface" : 0,
-						"fontsize" : 12.0,
-						"default_fontface" : 0,
-						"digest" : "",
-						"default_fontname" : "Arial",
 						"fontname" : "Arial",
 						"tags" : "",
 						"default_fontsize" : 12.0,
 						"description" : "",
-						"globalpatchername" : ""
+						"globalpatchername" : "",
+						"fontface" : 0,
+						"fontsize" : 12.0,
+						"default_fontface" : 0,
+						"digest" : "",
+						"default_fontname" : "Arial"
 					}
 ,
 					"text" : "p lpad-note-to-cc--val"
@@ -1211,8 +1505,8 @@
 					"numinlets" : 0,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 357.116028, 337.14502, 70.0, 27.0 ],
-					"text" : "lpadin"
+					"patching_rect" : [ 357.116028, 337.14502, 110.0, 27.0 ],
+					"text" : "lpad.midi.in"
 				}
 
 			}
@@ -1596,16 +1890,16 @@
 ,
 					"patching_rect" : [ 129.568176, 602.64502, 90.0, 20.0 ],
 					"saved_object_attributes" : 					{
-						"fontface" : 0,
-						"fontsize" : 12.0,
-						"default_fontface" : 0,
-						"digest" : "",
-						"default_fontname" : "Arial",
 						"fontname" : "Arial",
 						"tags" : "",
 						"default_fontsize" : 12.0,
 						"description" : "",
-						"globalpatchername" : ""
+						"globalpatchername" : "",
+						"fontface" : 0,
+						"fontsize" : 12.0,
+						"default_fontface" : 0,
+						"digest" : "",
+						"default_fontname" : "Arial"
 					}
 ,
 					"text" : "p macro-draw"
@@ -1622,8 +1916,8 @@
 					"maxclass" : "newobj",
 					"numinlets" : 0,
 					"numoutlets" : 0,
-					"patching_rect" : [ 64.0, 638.14502, 79.0, 27.0 ],
-					"text" : "lpadout"
+					"patching_rect" : [ 64.0, 638.14502, 121.0, 27.0 ],
+					"text" : "lpad.midi.out"
 				}
 
 			}
@@ -1887,50 +2181,50 @@
 			}
  ],
 		"dependency_cache" : [ 			{
-				"name" : "lpadout.maxpat",
-				"bootpath" : "/Users/mgarriss/develop/max",
+				"name" : "lpad.midi.out.maxpat",
+				"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 				"patcherrelativepath" : "",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "lpad-ctls.txt",
-				"bootpath" : "/Users/mgarriss/develop/max",
+				"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 				"patcherrelativepath" : "",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
-				"name" : "lpadin.maxpat",
-				"bootpath" : "/Users/mgarriss/develop/max",
+				"name" : "lpad.midi.in.maxpat",
+				"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 				"patcherrelativepath" : "",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "lpad-to-live-map.txt",
-				"bootpath" : "/Users/mgarriss/develop/max",
+				"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 				"patcherrelativepath" : "",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "liveout.maxpat",
-				"bootpath" : "/Users/mgarriss/develop/max",
+				"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 				"patcherrelativepath" : "",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "change-estimate",
-				"bootpath" : "/Users/mgarriss/develop/max",
+				"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 				"patcherrelativepath" : "",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "livein.maxpat",
-				"bootpath" : "/Users/mgarriss/develop/max",
+				"bootpath" : "/Users/mgarriss/develop/launchpad.controller",
 				"patcherrelativepath" : "",
 				"type" : "JSON",
 				"implicit" : 1
