@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'apparatus/action_builder'
+require 'apparatus/mode'
 
 include Apparatus
 
@@ -10,21 +10,11 @@ include Apparatus
      :release, col, row, stamp
 
    could send
-     :tap,           col0, row0
-     :press,         col0, row0
-     :release,       col0, row0
-
-     :roll           col0, row0,  col1, row1
-
-     :span_tap,      col0, row0,  col1, row1
-     :span_press,    col0, row0,  col1, row1
-     :span_release,  col0, row0,  col1, row1
-
-     :chord_tap,     col0, row0,  col1, row1,  col2, row2
-     :chord_press,   col0, row0,  col1, row1,  col2, rol2
-     :chord_release, col0, row0,  col1, row1,  col2, rol2
-
-     :hand,          col,  row,   size
+     :tap,     col0, row0, stamp
+     :press,   col0, row0, stamp
+     :release, col0, row0, stamp
+     :roll     col0, row0,  col1, row1, stamp
+     :hand,          col,  row,   size, stamp
 =end
 
 describe ActionBuilder do

@@ -3,6 +3,13 @@ require 'apparatus/event_builder'
 
 include Apparatus
 
+=begin
+ could send
+   :tap,     col, row, stamp
+   :press,   col, row, stamp
+   :release, col, row, stamp
+=end
+
 describe EventBuilder do
   before :all do
     @input = EM::Channel.new
