@@ -16,14 +16,8 @@ def cells
   end
 end
 
-def machine
-  EM::run_block do
-    begin
-      yield
-    ensure
-      EM::stop_event_loop
-    end
-  end
+def wait
+  sleep 0.1
 end
 
 RSpec.configure do |config|

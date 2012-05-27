@@ -1,38 +1,152 @@
 require 'spec_helper'
 
-module Foo
-  def receive_data(data)
-    puts "size was: #{Marshal.load(data).inspect}"
-  end
-end
-
 describe Agent do
-  it 'works' do
-    @thread = Thread.start(@agent) do |agent|
-      begin
-        EM.run do
-          @agent = Agent.new do |this,data|
-            this.send("sending through")
-          end
-          
-          Agent.listen_to(@agent) do |this,data|
-            puts 'HERE'
-          end
-          EM.attach(@agent.output,Foo)
-        end
-      rescue => e
-        puts e.class
-        puts e.message
+  before do
+    @a = Agent.new('@a')
+    @b = Agent.new('@b')
+    @c = Agent.new('@c')
+    puts
+  end
+  
+  it 'has a #received member that stores last received' do
+    @a << [:a,5]
+    wait
+    @a.received.should eq([:a,5])
+  end
+  
+  it 'chains 3 agents' do
+    @a << @c << @b
+    
+    @b.received.should be_nil
+    @c.received.should be_nil
+    @a.received.should be_nil
+    
+    @b << 'a string'
+    
+    wait
+    
+    @b.received.should eq('a string')
+    @c.received.should eq('a string')
+    @a.received.should eq('a string')
+  end
+  
+  it 'chains 3 agents with >>' do
+    @a >> @c >> @b
+    
+    @b.received.should be_nil
+    @c.received.should be_nil
+    @a.received.should be_nil
+    
+    @b << {a:'hash'}
+    
+    wait
+    
+    @b.received.should eq({a:'hash'})
+    @c.received.should be_nil
+    @a.received.should be_nil
+    
+    @a << {a:'hash2'}
+    
+    wait
+    
+    @b.received.should eq({a:'hash2'})
+    @c.received.should eq({a:'hash2'})
+    @a.received.should eq({a:'hash2'})
+  end
+  
+  it 'only attaches to one other agent',:pending do
+    @a >> @c
+    @a >> @b
+    
+    @b.received.should be_nil
+    @c.received.should be_nil
+    @a.received.should be_nil
+    
+    @a << {b:'hash'}
+    
+    wait
+    
+    @b.received.should eq({b:'hash'})
+    @c.received.should be_nil # eq({b:'hash'})
+    @a.received.should eq({b:'hash'})
+  end
+  
+  it '#attach is an alias for <<' do
+    @a.attach(@c).attach(@b)
+    
+    @b.received.should be_nil
+    @c.received.should be_nil
+    @a.received.should be_nil
+    
+    @b << [:dude,:ham]
+    
+    wait
+    
+    @b.received.should eq([:dude,:ham])
+    @c.received.should eq([:dude,:ham])
+    @a.received.should eq([:dude,:ham])
+  end
+
+  it 'has a class level attach' do
+    agent = Agent.attach(@a)
+    @a << [[:a],[:b]]
+    wait
+    agent.received.should eq([[:a],[:b]])
+  end
+  
+  it 'has a class level <<' do
+    agent = Agent << @a
+    @a << [[:a],[:b]]
+    wait
+    agent.received.should eq([[:a],[:b]])
+  end
+  
+  it 'has a class level << that chains' do
+    agent = Agent << Agent << @a
+    @a << [[:a],[:b]]
+    wait
+    agent.received.should eq([[:a],[:b]])
+  end
+  
+  it 'supports subclassing by overriding #react_to' do
+    class AddOneAgent < Agent
+      def react_to(data)
+        object_out(data + 1)
       end
     end
     
-    sleep 1
+    @a << AddOneAgent << 5
+    wait
+    @a.received.should eq(6)
+  end
+  
+  it 'supports subclassing by overriding #generate' do
+    class HelloAgent < Agent
+      def generate
+        react_to 'hello'
+      end
+    end
     
-    @agent << 'a string'
-    @agent << [:a,4,4.6]
+    @a << HelloAgent
+    wait
     
-    sleep 3
+    @a.received.should eq('hello')
+  end
+  
+  it 'supports subclassing by overriding both' do
+    class TenPlusOneAgent < Agent
+      def generate
+        react_to 10
+      end
+      
+      def react_to(data)
+        object_out(data + 1)
+      end
+    end
     
-    @thread.kill
+    @a << TenPlusOneAgent
+    wait
+    
+    @a.received.should eq(11)
   end
 end
