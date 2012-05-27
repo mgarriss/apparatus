@@ -5,7 +5,7 @@ include Apparatus
 
 # these tests require you to have a MIDI in/out device named 'Apparatus
 
-describe MIDIReceiver do
+describe MIDIReceiver,:pending do
   before :all do
     @output = double 'output'
     @input = UniMIDI::Output.all.find{|e| e.name == 'Apparatus'}
@@ -31,7 +31,7 @@ describe MIDIReceiver do
     
     cells do |col,row,pitch|
       it "[:on, #{col},#{row}, 0.0] after 144,#{pitch},127" do
-        @output.should_receive(:publish).with(144,pitch,0.0])
+        @output.should_receive(:publish).with([144,pitch,0.0])
         @input.puts(144,0,127)
       end
       

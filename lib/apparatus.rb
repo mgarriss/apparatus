@@ -1,5 +1,4 @@
 require "apparatus/version"
+require 'java'
 
-module Apparatus
-  # Your code goes here...
-end
+require 'apparatus/agent'

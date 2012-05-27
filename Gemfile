@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'midi-jruby'
+gem 'eventmachine'
 
 group :test do
   gem 'rspec'
