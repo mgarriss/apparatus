@@ -32,7 +32,7 @@ module Apparatus
       new >> rhs
     end
     
-    attr_reader :received
+    attr_reader :received, :produced
     attr_reader :name
     attr_reader :in_in,:in_out,:out_in,:out_out
     
@@ -48,7 +48,6 @@ module Apparatus
     end
     
     def <<(rhs)
-      puts "#{self.name} << #{rhs.name rescue rhs.inspect}"
       rhs = rhs.new(rhs.to_s) if rhs.respond_to?(:new)
       if rhs.kind_of? Agent
         attach(rhs)
@@ -59,15 +58,12 @@ module Apparatus
     end
     
     def >>(rhs)
-      puts "#{self.name} >> #{rhs.name rescue rhs.inspect}"
-      
       rhs = rhs.new(rhs.to_s) if rhs.respond_to?(:new)
       rhs.attach(self)
       rhs
     end
     
     def attach(agent)
-      puts "#{self.name}.attach(#{agent.name})"
       EM.next_tick do
         EM.attach(agent.out_in,Attachment) do |conn|
           conn.instance_variable_set(:@agent, self)
@@ -76,6 +72,29 @@ module Apparatus
       end
       agent
     end
+    
+    # override me
+    def react_to(obj)
+      object_out(obj)
+    end
+
+    # the start point
+    def object_in(obj)
+      @received = obj
+      react_to(obj)
+    end
+    
+    # the end point
+    def object_out(obj)
+      @produced = Marshal.dump(obj)
+      @out_out << @produced
+    end
+    
+    def clear
+      @received = nil
+    end
+
+    private
     
     def react_to_data(data)
       Pool.submit do
@@ -87,21 +106,6 @@ module Apparatus
       Pool.submit do
         object_in obj
       end
-    end
-    
-    def object_in(obj)
-      @received = obj
-      puts "#{@name}.object_in(#{obj.inspect})"
-      react_to(obj)
-    end
-    
-    # override me
-    def react_to(obj)
-      object_out(obj)
-    end
-    
-    def object_out(obj)
-      @out_out << Marshal.dump(obj)
     end
   end
 end

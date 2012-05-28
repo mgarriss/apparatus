@@ -5,7 +5,6 @@ describe Agent do
     @a = Agent.new('@a')
     @b = Agent.new('@b')
     @c = Agent.new('@c')
-    puts
   end
   
   it 'has a #received member that stores last received' do

@@ -17,7 +17,27 @@ def cells
 end
 
 def wait
-  sleep 0.1
+  sleep 1
+end
+
+class PutsHere
+  def initialize(parent)
+    @parent = parent
+  end
+  def method_missing(name,*args)
+    puts("#{@parent.class}(#{@parent.object_id}).#{name}")
+    args.each_with_index do |arg,i|
+      puts("       arg[#{i}]: #{arg}")
+    end
+  end
+end
+
+class Object
+  def here
+    print "HERE: "
+    @here ||= PutsHere.new(self)
+    puts
+  end
 end
 
 RSpec.configure do |config|

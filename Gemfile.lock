@@ -14,7 +14,6 @@ GEM
       thor (>= 0.14.6)
     guard-rspec (0.7.3)
       guard (>= 0.10.0)
-    midi-jruby (0.0.12)
     rspec (2.10.0)
       rspec-core (~> 2.10.0)
       rspec-expectations (~> 2.10.0)
@@ -25,8 +24,6 @@ GEM
     rspec-mocks (2.10.1)
     spork (0.9.2)
     thor (0.15.2)
-    unimidi (0.3.3-java)
-      midi-jruby
 
 PLATFORMS
   java
@@ -35,7 +32,5 @@ DEPENDENCIES
   apparatus!
   eventmachine
   guard-rspec
-  midi-jruby
   rspec
   spork
-  unimidi
