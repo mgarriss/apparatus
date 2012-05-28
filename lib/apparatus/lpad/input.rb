@@ -1,6 +1,7 @@
 module Apparatus
   module Lpad
     class Input < MIDI::Input
+      
       def self.find(port_name)
         all_by_type(Lpad)[:input].find do |device|
           device.name == port_name
