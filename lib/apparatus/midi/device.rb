@@ -1,5 +1,6 @@
 module Apparatus
-  module DeviceInstance
+  module Device
+    import javax.sound.midi.MidiSystem
     import javax.sound.midi.MidiDevice
     import javax.sound.midi.MidiEvent
     import javax.sound.midi.Receiver
@@ -17,17 +18,13 @@ module Apparatus
 
       # cache the type name so that inspecting the class isn't necessary each time
       @type = self.class.name.split('::').last.downcase.to_sym
-
-      @enabled = false
     end
 
     def timestamp
       Time.now.to_f
     end
-  end
-  
-  module DeviceClass
-    def all_by_type(type)
+    
+    def self.all_by_type(type)
       available_devices = { :input => [], :output => [] }
       count = -1
       MidiSystem.get_midi_device_info.each do |info|

@@ -11,32 +11,39 @@ include Apparatus
 def cells
   8.times do |col|
     8.times do |row|
-      yield col, row, (row * 16) + row
+      yield col, row, (row * 16) + col
     end
   end
 end
 
 def wait
-  sleep 1
+  sleep 0.1
 end
 
-class PutsHere
-  def initialize(parent)
-    @parent = parent
-  end
-  def method_missing(name,*args)
-    puts("#{@parent.class}(#{@parent.object_id}).#{name}")
-    args.each_with_index do |arg,i|
-      puts("       arg[#{i}]: #{arg}")
+class BasicObject
+  class PutsHere
+    def initialize(parent)
+      @parent = parent
+    end
+    def method_missing(name,*args)
+      print("  #{@parent.class}(#{_name}).#{name}(")
+      print args.map{|e|e.inspect}.join(',')
+      puts(')')
+      puts
+    end
+    def _name
+      if @parent.respond_to?(:name)
+        @parent.name
+      else
+        @parent.object_id
+      end
     end
   end
-end
 
-class Object
-  def here
-    print "HERE: "
+  def here(mess='')
+    $stdout.puts "HERE(#{caller[1].split(':').last.to_s}) #{mess.inspect}"
     @here ||= PutsHere.new(self)
-    puts
+    @here
   end
 end
 

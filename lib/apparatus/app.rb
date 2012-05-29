@@ -2,6 +2,6 @@ require 'apparatus/app/input'
 require 'apparatus/app/output'
 
 module Apparatus
-  AppOut = Lpad::Output.find('from Apparatus')
-  AppIn = Lpad::Input.find('to Apparatus')
+  AppOut = App::Output.find('from Apparatus').start
+  AppIn = App::Input.find('to Apparatus').start
 end

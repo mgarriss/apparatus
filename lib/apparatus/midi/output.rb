@@ -5,15 +5,14 @@ module Apparatus
       import javax.sound.midi.ShortMessage
       import javax.sound.midi.SysexMessage
       
-      include DeviceInstance
-      extend DeviceClass
+      include Device
       
       def self.device_args
         [self, :output]
       end
       
       def self.find(port_name)
-        all_by_type(MIDI)[:output].find do |device|
+        Device.all_by_type(MIDI)[:output].find do |device|
           device.name == port_name
         end
       end
@@ -22,6 +21,7 @@ module Apparatus
         init_device(*args)
         @device.open
         super(@name)
+        @attached_to_output = true
       end
       
       # close this output
@@ -29,12 +29,17 @@ module Apparatus
         @device.close
       end
       
-      def react_to(*byte_array)
-        puts(*byte_array)
+      def react_to(byte_array)
+        object_out byte_array
       end
-
-      private
       
+      def object_out(byte_array)
+        super(byte_array) do
+          puts(*byte_array)
+        end
+      end
+      
+      private
       
       # sends a MIDI message comprised of a String of hex digits 
       def puts_s(data)
