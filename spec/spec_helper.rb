@@ -17,7 +17,7 @@ def cells
 end
 
 def wait
-  sleep 0.1
+  sleep 0.02
 end
 
 class BasicObject
@@ -55,20 +55,13 @@ RSpec.configure do |config|
   config.treat_symbols_as_metadata_keys_with_true_values = true
   config.filter_run focus:true
   config.run_all_when_everything_filtered = true
-
+  config.backtrace_clean_patterns <<  /org\.jruby/
+  
   config.before(:suite) do
+    Apparatus.start
   end
   
   config.after(:suite) do
-  end
-  
-  config.before(:all) do
-    # @input = Pipe.new
-    # @output = Pipe.new
-  end
-  
-  config.after(:all) do
-    # @input.detach!
-    # @output.detach!
+    Apparatus.stop
   end
 end

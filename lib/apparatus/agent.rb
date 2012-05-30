@@ -7,32 +7,13 @@ java_import java.util.concurrent.Executors
 
 module Apparatus
   class Agent
+    include Logger
+    
     module Attachment
       def receive_data(data)
         @agent.object_in Marshal.load(data)
       end
     end
-    
-    def self.spin_off
-      Pool.submit do
-        begin
-          yield
-        rescue => e
-          $stderr.puts 'Apparatus ERROR'
-          $stderr.puts inspect
-          $stderr.puts e.class
-          $stderr.puts e.message
-          $stderr.puts e.backtrace
-        end
-      end
-    end
-
-    ReactorThread = Thread.start do
-      EM.run do
-      end
-    end
-    
-    Pool = Executors.newCachedThreadPool    
     
     def self.start(*args)
       new(*args).start
@@ -72,18 +53,18 @@ module Apparatus
       @out_in, @out_out = IO.pipe
       @alive = true
       stop
-      @generator = Agent.spin_off { generate } if respond_to?(:generate)
+      @generator = Apparatus.spin_off { generate } if respond_to?(:generate)
     end
     
     def stop
       @executor.stop if @executor.respond_to?(:start)
-      @generator.stop if @executor.respond_to?(:start)
+      @generator.stop if @generator.respond_to?(:start)
     end
     
     def kill
       @received = @produced = @alive = nil
       @executor.kill if @executor.respond_to?(:kill)
-      @generator.kill if @executor.respond_to?(:kill)
+      @generator.kill if @generator.respond_to?(:kill)
       close
       def self.<<(*args) nil; end
       def self.>>(*args) nil; end
@@ -154,11 +135,13 @@ module Apparatus
     end
     
     def broadcast_to(agents)
-      @channel ||= EM::Channel.new
-      @attached_to_output = true
-      agents.each do |agent|
-        agent.attached_to_input = true
-        @channel.subscribe agent.method(:object_in)
+      EM.next_tick do
+        @channel ||= EM::Channel.new
+        @attached_to_output = true
+        agents.each do |agent|
+          agent.attached_to_input = true
+          @channel.subscribe agent.method(:object_in)
+        end
       end
     end
     
@@ -193,7 +176,7 @@ module Apparatus
     def _react_to(obj)
       if @attached_to_output
         if @threaded
-          @executor = Agent.spin_off { react_to(obj) }
+          @executor = Apparatus.spin_off { react_to(obj) }
         else
           react_to(obj)
         end
