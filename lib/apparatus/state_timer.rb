@@ -9,11 +9,13 @@ module Apparatus
       # end
       @key = key
       @done = false
-      @signature = EM.add_timer(time) do
-        begin
-          bind_to.send(meth,*args)
-        ensure
-          cancel
+      EM.next_tick do
+        @signature = EM.add_timer(time) do
+          begin
+            bind_to.send(meth,*args)
+          ensure
+            cancel
+          end
         end
       end
       bind_to.timers[key] = self

@@ -31,10 +31,10 @@ end
 
 def wait
   if block_given?
-    sleep 0.05
-    EM.next_tick do
+    EM.run_block do
       yield
     end
+  else
+    sleep 0.1
   end
-  sleep 0.05
 end

@@ -1,11 +1,10 @@
 module Apparatus
   class Page < Control
     include Helpers
-
+    
     def initialize(name,&block) 
       super(name)
       LpadEvent >> self >> LpadEffect 
-      @activated = false
       @controls = {}
       @state = {}
       instance_eval(&block)
@@ -17,36 +16,6 @@ module Apparatus
     
     def off?(loc)
       @state[loc].nil?
-    end
-    
-    def activated?
-      @activated
-    end
-    
-    def to_activate(&ex)
-      @to_activate = ex
-    end
-    
-    def to_deactivate(&ex)
-      @to_deactivate = ex
-    end
-    
-    def on_activate(&ex)
-      @on_activate = ex
-    end
-    
-    def on_deactivate(&ex)
-      @on_deactivate = ex
-    end
-    
-    def deactivate!
-      @activated = false
-      @on_deactivate.call if @on_deactivate
-    end
-    
-    def activate!
-      @activated = true
-      @on_activate.call if @on_activate
     end
     
     def react_to(obj)

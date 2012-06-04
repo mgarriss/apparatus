@@ -2,8 +2,9 @@ require "apparatus/version"
 
 require 'java'
 require 'eventmachine'
+require 'state_machine'
 
-$logout = File.open('./log/apparatus.log', 'w')
+$logout = File.open('./log/apparatus.log', 'w+')
 
 require 'apparatus/controller'
 require 'apparatus/core_ext'

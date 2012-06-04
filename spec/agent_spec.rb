@@ -10,26 +10,6 @@ describe Agent do
     @c = Agent.new '@c'
   end
   
-  it 'has a #attached_to_input?' do
-    @a.attached_to_input?.should be_false
-    @a << @b
-    wait
-    EM.next_tick do
-      @a.attached_to_input?.should be_true
-    end
-    wait
-  end
-  
-  it 'has a #attached_to_output?' do
-    @a.attached_to_output?.should be_false
-    @a >> @b
-    wait
-    EM.next_tick do
-      @a.attached_to_output?.should be_true
-    end
-    wait
-  end
-  
   it 'has a #received member that stores last received' do
     @a << [:a,5]
     wait

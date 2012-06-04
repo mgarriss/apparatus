@@ -22,6 +22,7 @@ module Apparatus
   end
   
   EM.next_tick do
+    debugger
     User2 = Page.new('User2') do
       to_activate do
         tap? and user2?

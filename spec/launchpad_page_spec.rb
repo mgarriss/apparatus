@@ -43,4 +43,8 @@ describe Page do
       @page.off?(col:4,row:6).should be_true
     end
   end
+  
+  it 'is a subclass of Lpad::Effect' do
+    Page.ancestors.should include(Apparatus::Lpad::Effect)
+  end
 end

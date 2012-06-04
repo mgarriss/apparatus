@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 # gemspec
 
 gem 'eventmachine'
+gem 'rb-fsevent'
+gem 'state_machine'
 gem 'rspec'
 gem 'guard-rspec'
 

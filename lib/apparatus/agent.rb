@@ -8,11 +8,6 @@ require 'em/connection'
 
 module Apparatus
   class Agent
-    include Logger
-    extend Logger
-    
-    include Timed
-    
     module Attachment
       def receive_data(data)
         EM.next_tick do
@@ -20,6 +15,11 @@ module Apparatus
         end
       end
     end
+    
+    include Logger
+    extend Logger
+    
+    include Timed
     
     def self.attach(rhs)
       new.attach(rhs)
@@ -33,27 +33,68 @@ module Apparatus
       new >> rhs
     end
     
-    attr_reader :received, :produced
+    def received
+      @received.pop
+    end
+    
+    def produced
+      @produced.pop
+    end
+    
     attr_accessor :name
     attr_reader :production
     attr_reader :in_in,:in_out,:out_in,:out_out
     
     attr_accessor :attached_to_output, :attached_to_input
     
+    state_machine :state, initial: :deactivated do
+      event :deactivate! do
+        transition any => :deactivated
+      end
+      
+      event :activate! do
+        transition any => :activated
+      end
+      
+      state :deactivated do
+        def should_activate?(event=nil)
+          @to_activate.call(event)
+        end
+      
+        def should_deactivate?(event=nil)
+          true
+        end
+      end
+      
+      # def deactivate!
+      #   @activated = false
+      #   @on_deactivate.call if @on_deactivate
+      # end
+      
+      # def activate!
+      #   @activated = true
+      #   @on_activate.call if @on_activate
+      # end
+    end
+    
     def initialize(name = self.class.to_s)
+      super()
       @name = name
-      @received, @produced = nil, nil
+      @received, @produced = EM::Queue.new, EM::Queue.new
       @production = Array.new(8) do Hash.new end
       @attached_to_input, @attached_to_output = false, false
       @in_in, @in_out = IO.pipe
       @out_in, @out_out = IO.pipe
       child_init if respond_to?(:child_init)
-      #Apparatus.spin_off do
-        generate
-      #end if respond_to?(:generate)
+      generate if respond_to?(:generate)
     end
     
-    def generate
+    def on_activate(&ex)
+      @on_activate = ex
+    end
+    
+    def on_deactivate(&ex)
+      @on_deactivate = ex
     end
     
     def clear
@@ -61,20 +102,11 @@ module Apparatus
       @production = Array.new(8) do Hash.new end
     end
     
-    def attached_to_input?
-      @attached_to_input
-    end
-    
-    def attached_to_output?
-      @attached_to_output
-    end
-    
     def <<(rhs)
       rhs = rhs.new(rhs.to_s) if rhs.respond_to?(:new)
       if rhs.kind_of? Agent
         attach(rhs)
       else
-        @attached_to_input = true
         object_in(rhs)
       end
       rhs
@@ -92,8 +124,8 @@ module Apparatus
     
     def attach(agent)
       EM.next_tick do
-        @attached_to_input = true
-        agent.attached_to_output = true
+        activate!
+        agent.activate!
         EM.attach(agent.out_in,Attachment) do |conn|
           conn.instance_variable_set(:@agent, self)
           true
@@ -104,9 +136,7 @@ module Apparatus
     
     def broadcast_to(agents)
       @channel ||= EM::Channel.new
-      @attached_to_output = true
       agents.each do |agent|
-        agent.attached_to_input = true
         @channel.subscribe agent.method(:object_in)
       end
     end
@@ -115,28 +145,24 @@ module Apparatus
     ### INPUT and OUPUT 
 
     def object_in(obj)
-      if @attached_to_input
-        if filter(obj)
-          @received = obj
-          info obj
-          _react_to(obj)
-        end
+      if filter(obj)
+        @received = obj
+        info obj
+        _react_to(obj)
       end
     end
     
     # the end point
     def object_out(obj)
       @channel.push(obj) if @channel
-      if @attached_to_output
-        @production << obj
-        @production.shift
-        @produced = obj
-        info obj
-        if block_given?
-          yield
-        else
-          @out_out << Marshal.dump(obj)
-        end
+      @production << obj
+      @production.shift
+      @produced = obj
+      info obj
+      if block_given?
+        yield
+      else
+        @out_out << Marshal.dump(obj)
       end
     end
     
