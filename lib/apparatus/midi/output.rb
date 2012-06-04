@@ -14,7 +14,7 @@ module Apparatus
       def self.find(port_name)
         Device.all_by_type(MIDI)[:output].find do |device|
           device.name == port_name
-        end
+        end or error("#{port_name} input port not available")
       end
       
       def initialize(*args)
@@ -43,7 +43,7 @@ module Apparatus
       
       # sends a MIDI message comprised of a String of hex digits 
       def puts_s(data)
-        data = data.dup
+        data = (data.dup rescue data)
         output = []
         until (str = data.slice!(0,2)).eql?("")
           output << str.hex

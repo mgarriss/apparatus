@@ -1,3 +1,5 @@
 require 'apparatus/lpad/input'
 require 'apparatus/lpad/output'
 require 'apparatus/lpad/event'
+require 'apparatus/lpad/effect'
+require 'apparatus/lpad/feedback'

@@ -7,27 +7,29 @@ describe Lpad::Input do
     LpadIn >> Agent.new
   end
   
-  before :each do
-    LpadIn.stub(:timestamp).and_return(0.0)
-  end
-  
   cells do |col,row,pitch|
-    it "144,#{pitch},127 -> {name:'on',col:#{col},row:#{row},time:0.0}" do
-      AppOut << ['on',pitch,127]
-      wait
-      AppOut.received.should eq(['on',pitch,127])
-      AppOut.produced.should eq([144,pitch,127])
-      LpadIn.received.should eq([144,pitch,127])
-      LpadIn.produced.should eq({name:'on',col:col,row:row,time:0.0})
+    it "144,#{pitch},127 -> {name:'on',col:#{col},row:#{row}}" do
+      AppOut << {name:'on',pitch:pitch,velocity:127}
+      wait do
+        AppOut.received.should eq({name:'on',pitch:pitch,velocity:127})
+        AppOut.produced.should eq([144,pitch,127])
+      end
+      wait do
+        # LpadIn.received.should eq([144,pitch,127])
+        LpadIn.produced.should eq({name:'on',col:col,row:row})
+      end
     end
     
-    it "144,#{pitch},0 -> {name:'off',col:#{col},row:#{row},time:0.0}" do
-      AppOut << ['off',pitch,0]
-      wait
-      AppOut.received.should eq(['off',pitch,0])
-      AppOut.produced.should eq([144,pitch,0])
-      # LpadIn.received.should eq([144,pitch,0])
-      LpadIn.produced.should eq({name:'on',col:col,row:row,time:0.0})
+    it "144,#{pitch},0 -> {name:'off',col:#{col},row:#{row}}" do
+      AppOut << {name:'off',pitch:pitch}
+      wait do
+        AppOut.received.should eq({name:'off',pitch:pitch})
+        AppOut.produced.should eq([128,pitch,0])
+      end
+      wait do
+        # LpadIn.received.should eq([128,pitch,0])
+        LpadIn.produced.should eq({name:'off',col:col,row:row})
+      end
     end
   end
 end

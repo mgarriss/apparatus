@@ -1,12 +1,9 @@
 source 'https://rubygems.org'
 
 # Specify your gem's dependencies in apparatus.gemspec
-gemspec
+# gemspec
 
 gem 'eventmachine'
+gem 'rspec'
+gem 'guard-rspec'
 
-group :test do
-  gem 'rspec'
-  gem 'guard-rspec'
-  gem 'spork'
-end

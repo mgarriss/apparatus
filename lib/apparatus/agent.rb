@@ -3,20 +3,22 @@ require 'eventmachine'
 require 'em/channel'
 require 'em/connection'
 
-java_import java.util.concurrent.Executors
+# java_import java.util.concurrent.Executors
+# $executors = Executors.newCachedThreadPool
 
 module Apparatus
   class Agent
     include Logger
+    extend Logger
+    
+    include Timed
     
     module Attachment
       def receive_data(data)
-        @agent.object_in Marshal.load(data)
+        EM.next_tick do
+          @agent.object_in Marshal.load(data)
+        end
       end
-    end
-    
-    def self.start(*args)
-      new(*args).start
     end
     
     def self.attach(rhs)
@@ -32,65 +34,31 @@ module Apparatus
     end
     
     attr_reader :received, :produced
-    attr_reader :name
+    attr_accessor :name
+    attr_reader :production
     attr_reader :in_in,:in_out,:out_in,:out_out
     
     attr_accessor :attached_to_output, :attached_to_input
     
     def initialize(name = self.class.to_s)
-      @name, @threaded = name, false
-      reset
-    end
-    
-    def reset
-      @attached_to_input, @attached_to_output = false, false
+      @name = name
       @received, @produced = nil, nil
-      @in_in.close if @in_in.respond_to?(:close)
-      @in_out.close if @in_out.respond_to?(:close)
-      @out_in
-      @out_out = IO.pipe
+      @production = Array.new(8) do Hash.new end
+      @attached_to_input, @attached_to_output = false, false
       @in_in, @in_out = IO.pipe
       @out_in, @out_out = IO.pipe
-      @alive = true
-      stop
-      @generator = Apparatus.spin_off { generate } if respond_to?(:generate)
+      child_init if respond_to?(:child_init)
+      #Apparatus.spin_off do
+        generate
+      #end if respond_to?(:generate)
     end
     
-    def stop
-      @executor.stop if @executor.respond_to?(:start)
-      @generator.stop if @generator.respond_to?(:start)
+    def generate
     end
     
-    def kill
-      @received = @produced = @alive = nil
-      @executor.kill if @executor.respond_to?(:kill)
-      @generator.kill if @generator.respond_to?(:kill)
-      close
-      def self.<<(*args) nil; end
-      def self.>>(*args) nil; end
-      def self.attach(*args) nil; end
-      def self.object_in(*args) nil; end
-      def self.object_out(*args) nil; end
-      def self.reset(*args) nil; end
-    end
-
-    # override me
-    def close
-    end
-    
-    def start
-      @threaded = true
-      @executor.start if @executor.respond_to?(:start)
-      @generator.start if @executor.respond_to?(:start)
-      self
-    end
-    
-    def alive?
-      @alive
-    end
-    
-    def threaded?
-      @threaded
+    def clear
+      @received, @produced = nil, nil
+      @production = Array.new(8) do Hash.new end
     end
     
     def attached_to_input?
@@ -123,9 +91,9 @@ module Apparatus
     end
     
     def attach(agent)
-      @attached_to_input = true
-      agent.attached_to_output = true
       EM.next_tick do
+        @attached_to_input = true
+        agent.attached_to_output = true
         EM.attach(agent.out_in,Attachment) do |conn|
           conn.instance_variable_set(:@agent, self)
           true
@@ -135,23 +103,23 @@ module Apparatus
     end
     
     def broadcast_to(agents)
-      EM.next_tick do
-        @channel ||= EM::Channel.new
-        @attached_to_output = true
-        agents.each do |agent|
-          agent.attached_to_input = true
-          @channel.subscribe agent.method(:object_in)
-        end
+      @channel ||= EM::Channel.new
+      @attached_to_output = true
+      agents.each do |agent|
+        agent.attached_to_input = true
+        @channel.subscribe agent.method(:object_in)
       end
     end
-    
+
     
     ### INPUT and OUPUT 
 
     def object_in(obj)
       if @attached_to_input
-        @received = obj
-        _react_to(obj)
+        if filter(obj)
+          @received = obj
+          _react_to(obj)
+        end
       end
     end
     
@@ -159,6 +127,8 @@ module Apparatus
     def object_out(obj)
       @channel.push(obj) if @channel
       if @attached_to_output
+        @production << obj
+        @production.shift
         @produced = obj
         if block_given?
           yield
@@ -173,14 +143,13 @@ module Apparatus
       object_out(obj)
     end
     
+    # override me
+    def filter(obj)
+      true
+    end
+    
     def _react_to(obj)
-      if @attached_to_output
-        if @threaded
-          @executor = Apparatus.spin_off { react_to(obj) }
-        else
-          react_to(obj)
-        end
-      end
+      react_to(@obj = obj) if @attached_to_output
     end
   end
 end

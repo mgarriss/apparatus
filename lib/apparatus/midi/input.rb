@@ -10,37 +10,26 @@ module Apparatus
       def self.find(port_name)
         Device.all_by_type(MIDI)[:input].find do |device|
           device.name == port_name
-        end
+        end or error("#{port_name} input port not available")
       end
       
       def initialize(*args)
         init_device(*args)
+        super(@name)
         @device.open
         @transmitter = @device.get_transmitter
         @receiver = MIDIReceiver.new
         @transmitter.set_receiver @receiver
-        super(@name)
         @attached_to_input = true
       end
 
       def generate
         EM.next_tick do
-          begin
-            EM.attach(@receiver.io_in,Agent::Attachment) do |conn|
-              conn.instance_variable_set(:@agent,self)
-              true
-            end
-          rescue => e
-            $stderr.puts "Apparatus ERROR"
-            $stderr.puts inspect
-            $stderr.puts e.class
-            $stderr.puts e.message
+          EM.attach(@receiver.io_in,Agent::Attachment) do |conn|
+            conn.instance_variable_set(:@agent,self)
+            true
           end
         end
-      end
-      
-      def timestamp
-        Time.now.to_f
       end
       
       def close
