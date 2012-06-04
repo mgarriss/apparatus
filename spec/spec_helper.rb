@@ -16,8 +16,14 @@ RSpec.configure do |config|
   config.filter_run focus:true
   config.run_all_when_everything_filtered = true
   config.backtrace_clean_patterns <<  /org\.jruby/
-  config.before(:suite) do
-    Apparatus.start
+  config.before(:each) do
+    unless EM.reactor_running?
+      Apparatus.start
+      sleep 1
+    end
+  end
+  config.after(:each) do
+    sleep 0.05
   end
 end
 
@@ -26,15 +32,5 @@ def cells
     2.times do |row|
       yield col, row, (row * 16) + col
     end
-  end
-end
-
-def wait
-  if block_given?
-    EM.run_block do
-      yield
-    end
-  else
-    sleep 0.1
   end
 end

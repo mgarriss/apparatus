@@ -22,9 +22,10 @@ module Apparatus
       n = n.split('::').last
       n = n[0...12].ljust(12)
       c = caller[1].split('`').last.sub("'",'').strip[0...12].ljust(12)
-      # self.class.instance_method(c.to_sym).source.display
       #io.puts "#{type}.#{thread_name}.#{now}.#{object_id} | #{n}.#{c} | #{line}"
-      io.puts "#{type}.#{n}.#{c} | #{line}"
+      class_name = (self.class.to_s.split('::')[-2..-1].join('::') rescue self.class.to_s)[0...12].ljust(12)
+      io.puts "#{type}.#{class_name}(#{n}).#{c} | #{line}"
+      io.flush
     end
     
     def error(line='')
@@ -39,7 +40,7 @@ module Apparatus
     end
     
     def info(line='')
-      _log_line 'info', line
+      _log_line 'info', line.inspect
     end
     
     def shield

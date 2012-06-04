@@ -1,6 +1,1 @@
 info.Apparatus   .start        | 
-info.@a          .object_in    | [:a, 5]
-info.Launchpad   .object_in    | [176, 127, 110]
-info.Launchpad   .object_in    | [176, 0, 110]
-info.Launchpad   .object_in    | {:name=>"reset"}
-info.Launchpad   .object_out   | [176, 0, 0]

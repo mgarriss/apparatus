@@ -1,6 +1,17 @@
 module Apparatus    
   module MIDI
     class Input < Agent
+      module Attachment
+        def receive_data(data)
+          data = Marshal.load(data)
+          case data.size
+          when 1 then data += [0,0]
+          when 2 then data += [0]
+          end
+          @agent.object_in data
+        end
+      end
+      
       include Device
       
       def self.device_args
@@ -20,12 +31,11 @@ module Apparatus
         @transmitter = @device.get_transmitter
         @receiver = MIDIReceiver.new
         @transmitter.set_receiver @receiver
-        @attached_to_input = true
       end
 
       def generate
         EM.next_tick do
-          EM.attach(@receiver.io_in,Agent::Attachment) do |conn|
+          EM.attach(@receiver.io_in,Attachment) do |conn|
             conn.instance_variable_set(:@agent,self)
             true
           end

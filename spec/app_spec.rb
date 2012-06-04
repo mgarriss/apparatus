@@ -6,44 +6,35 @@ describe App do
   end
   
   it 'accepts the CC messages' do
+    AppOut.should_receive(:object_in).with({name:'cc',number:56,value:0})
     AppOut << {name:'cc',number:56,value:0}
-    wait; wait; wait; wait
-    wait do
-      AppOut.received.should eq({name:'cc',number:56,value:0})
-      AppOut.produced.should eq([176,0,56])
-    end
   end
   
-  it 'receives CC messages' do
+  it 'produces CC messages' do
+    AppOut.should_receive(:object_out).with([176,0,56])
+    AppOut << {name:'cc',number:56,value:0}
+  end
+  
+  it 'receives CC messages',:pending do
     @from_app = App::Input.find('from Apparatus')
     @from_app >> (agent = Agent.new)
-
-    wait; wait; wait; wait
     AppOut << {name:'cc',number:56,value:0}
-    wait do
-      @from_app.received.should eq([176,0,56])
-      @from_app.produced.should eq({name:'cc',number:56,value:0})
-      agent.received.should eq({name:'cc',number:56,value:0})
-    end
+    @from_app.received.should eq([176,0,56])
+    @from_app.produced.should eq({name:'cc',number:56,value:0})
+    agent.received.should eq({name:'cc',number:56,value:0})
   end
   
-  it 'accepts the note messages' do
+  it 'accepts the note messages',:pending do
     AppOut << {name:'on',pitch:23,velocity:34}
-    wait do
-      AppOut.received.should eq({name:'on',pitch:23,velocity:34})
-      AppOut.produced.should eq([144,23,34])
-    end
+    AppOut.received.should eq({name:'on',pitch:23,velocity:34})
+    AppOut.produced.should eq([144,23,34])
   end
   
-  it 'receives note messages' do
+  it 'receives note messages',:pending do
     @from_app = App::Input.find('from Apparatus')
     @from_app >> (agent = Agent.new)
-    wait do
-      AppOut << {name:'on',pitch:23,velocity:34}
-    end
-    wait do
-      @from_app.produced.should eq({name:'on',pitch:23,velocity:34})
-      agent.received.should eq({name:'on',pitch:23,velocity:34})
-    end
+    AppOut << {name:'on',pitch:23,velocity:34}
+    @from_app.produced.should eq({name:'on',pitch:23,velocity:34})
+    agent.received.should eq({name:'on',pitch:23,velocity:34})
   end
 end
