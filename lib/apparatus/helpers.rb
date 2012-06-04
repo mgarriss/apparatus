@@ -15,6 +15,7 @@ module Apparatus
     def bottom(color,col,args={})
       {name:color,col:col,row:7}.merge(args)
     end
+    
     def scene?(row = nil)
       if row.nil?
         @obj[:col] == 8
@@ -22,8 +23,21 @@ module Apparatus
         @obj[:col] == 8 and @obj[:row] == row
       end
     end
+    
     def tap?
       @obj[:name] == 'tap'
+    end
+    
+    def cc?(number=nil)
+      if number
+        @obj[:name] == 'cc' and @obj[:number] == number
+      else
+        @obj[:name] == 'cc'
+      end
+    end
+    
+    def user2?
+      cc?(110)
     end
   end
 end

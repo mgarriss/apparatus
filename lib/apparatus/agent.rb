@@ -118,6 +118,7 @@ module Apparatus
       if @attached_to_input
         if filter(obj)
           @received = obj
+          info obj
           _react_to(obj)
         end
       end
@@ -130,6 +131,7 @@ module Apparatus
         @production << obj
         @production.shift
         @produced = obj
+        info obj
         if block_given?
           yield
         else

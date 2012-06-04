@@ -21,29 +21,22 @@ module Apparatus
     LpadOut << {name:'reset'}
   end
   
-  MainPage = Page.new('MainPage') do
-    to_activate do
-      tap? and scene?(0)
+  EM.next_tick do
+    User2 = Page.new('User2') do
+      to_activate do
+        tap? and user2?
+      end
+      
+      to_deactivate do
+        tap? and cc? and !user2?
+      end
+      
+      add_effect :flash_on, FlashOn, 'yellow'
+      
+      add_trigger(CellTapped) do |obj|
+        effect!(:flash_on,obj)
+      end
     end
-   
-    to_deactivate do
-      tap? and scene? and !scene?(0)
-    end
-    
-    on_activate do
-      object_out scene('red',0)
-    end
-    
-    on_deactivate do
-      object_out scene('off',0)
-    end
-    
-    add_effect :flash_on, FlashOn, 'yellow'
-    
-    add_trigger(CornerTapped) do |obj|
-      effect!(:flash_on,obj)
-    end
-    
-    add_control :macro_1, CCtoCol, col:0, cc:14 
   end
+  sleep 4
 end

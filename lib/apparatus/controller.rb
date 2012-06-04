@@ -17,7 +17,7 @@ module Apparatus
       (Apparatus.timestamp * 2) - Apparatus::StartTime
     end
     
-    def _log_line(type, line, io = $stdout)
+    def _log_line(type, line, io = ($logout || $stdout))
       n = ((name || self.class.to_s) rescue self.class.to_s)
       n = n.split('::').last
       n = n[0...12].ljust(12)
@@ -28,9 +28,9 @@ module Apparatus
     end
     
     def error(line='')
-      $stderr.puts
-      _log_line 'error', line, $stderr
-      $stderr.puts
+      ($logout || $stderr).puts
+      _log_line 'error', line, ($logout || $stderr )
+      ($logout || $stderr).puts
       Apparatus.stop
     end
     

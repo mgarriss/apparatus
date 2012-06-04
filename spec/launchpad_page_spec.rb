@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Page, :focus do
+describe Page do
   before do
     LpadEvent = Lpad::Event.new('LpadEvent')
     LpadOut =  Lpad::Output.find('to Apparatus')
@@ -36,10 +36,11 @@ describe Page, :focus do
   
   it 'stores lpad event state' do
     @page << {name:'hold',col:3,row:6}
-    wait
-    @page.on?(col:3,row:6).should be_true
-    @page.off?(col:3,row:6).should be_false
-    @page.on?(col:4,row:6).should be_false
-    @page.off?(col:4,row:6).should be_true
+    wait do
+      @page.on?(col:3,row:6).should be_true
+      @page.off?(col:3,row:6).should be_false
+      @page.on?(col:4,row:6).should be_false
+      @page.off?(col:4,row:6).should be_true
+    end
   end
 end
