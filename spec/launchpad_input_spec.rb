@@ -13,8 +13,9 @@ describe Lpad::Input do
   
   cells do |col,row,pitch|
     it "144,#{pitch},127 -> {name:'on',col:#{col},row:#{row}}" do
-      LpadIn.should_receive(:react_to).with([144,pitch,127])
+      LpadIn.should_receive(:object_in).with([144,pitch,127])
       AppOut << {name:'on',pitch:pitch,velocity:127}
+      sleep 1
     end
     
     it "144,#{pitch},0 -> {name:'off',col:#{col},row:#{row}}" do

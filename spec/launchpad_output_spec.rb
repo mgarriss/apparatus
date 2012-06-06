@@ -5,6 +5,10 @@ describe Lpad::Output do
     LpadOut = Lpad::Output.find('to Apparatus')
   end
   
+  after :all do
+    LpadOut.close
+  end
+  
   cells do |col,row,pitch|
     it "{name:'on',col:#{col},row:#{row}} - > 144,#{pitch},127" do
       LpadOut.should_receive(:object_out).with([144,pitch,127])

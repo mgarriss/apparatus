@@ -1,12 +1,6 @@
 module Apparatus
   module App
     class Input < MIDI::Input
-      def self.find(port_name)
-        Device.all_by_type(App)[:input].find do |device|
-          device.name == port_name
-        end or error("#{port_name} input port not available")
-      end
-      
       def filter(obj)
         obj.size == 3 and
           [144,176,128].include?(obj.first)

@@ -16,14 +16,10 @@ Blah blah
 
 Install it with [RubyGems](https://rubygems.org/)
 
-    gem install miniscale
+    gem install apparatus
 
 or add this to your Gemfile if you use [Bundler](http://gembundler.com/):
 
-    gem "miniscale"
-
+    gem "apparatus"
 
 ## Getting started ##
-
-
-### An IRB session  ###

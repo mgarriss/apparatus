@@ -1,13 +1,13 @@
 require 'spec_helper'
 
-describe Page do
+describe Lpad::Page do
   before do
     LpadEvent = Lpad::Event.new('LpadEvent')
     LpadOut =  Lpad::Output.find('to Apparatus')
     AppOut = Lpad::Output.find('from Apparatus')
     AppIn = Agent.new('AppIn')
     
-    @page = Page.new('MainPage') do
+    @page = Lpad::Page.new('MainPage') do
       to_activate do
         tap? and scene?(0)
       end

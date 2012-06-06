@@ -1,12 +1,6 @@
 module Apparatus
   module Lpad
     class Output < MIDI::Output
-      def self.find(port_name)
-        Device.all_by_type(Lpad)[:output].find do |device|
-          device.name == port_name
-        end or error("#{port_name} input port not available")
-      end
-      
       def child_init
         @last_col, @last_row = 0, 0
       end
