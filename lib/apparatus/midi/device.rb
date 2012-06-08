@@ -40,7 +40,7 @@ module Apparatus
       end
       
       def close
-        @device.close
+        # @device.close
       end
     end
   end

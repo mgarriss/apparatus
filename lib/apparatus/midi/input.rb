@@ -29,8 +29,8 @@ module Apparatus
       end
       
       def close
-        @transmitter.close
-        super
+        # super
+        # @transmitter.close
       end
     end
   end

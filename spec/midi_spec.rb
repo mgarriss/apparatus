@@ -7,10 +7,10 @@ describe MIDI do
   end
   
   after :all do
-    @input.close
-    @output.close
+    # @input.close
+    # @output.close
   end
-  
+
   it 'output behaves like an agent' do
     @output.should_receive(:object_in).with([144,5,5])
     @output << [144,5,5]

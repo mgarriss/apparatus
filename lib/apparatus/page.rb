@@ -20,14 +20,14 @@ module Apparatus
       end
       
       def react_to(obj)
-        if activated? && @to_deactivate && @to_deactivate.call(obj)
-          deactivate!
-        elsif !activated? && @to_activate &&  @to_activate.call(obj)
-          activate!
-        elsif activated?
+        # if activated? && @to_deactivate && @to_deactivate.call(obj)
+        #   deactivate!
+        # elsif !activated? && @to_activate &&  @to_activate.call(obj)
+        #   activate!
+        # elsif activated?
           store_state(obj)
           super obj
-        end
+#        end
       end
       
       def add_control(name, klass, *args)
