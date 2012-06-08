@@ -2,15 +2,12 @@
 
 ## What is Apparatus? ##
 
-[link name](http://example.org)
-
-Blah blah
-
- * list item 1
- * list item 2
+It's a daemon that sits between the Launchpad and Live and makes the Launchpad suck
+less.
 
 ## What is Apparatus good for? ##
 
+Performing.
 
 ## Install the gem ##
 

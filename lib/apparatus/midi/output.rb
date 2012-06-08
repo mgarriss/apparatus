@@ -11,6 +11,7 @@ module Apparatus
       
       def object_out(data)
         super(data) do
+          info data
           if data.first.eql?(0xF0)
             msg = SysexMessage.new
             msg.set_message(data.to_java(:byte), data.length)

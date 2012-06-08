@@ -18,9 +18,9 @@ module Apparatus
     end
     
     def _log_line(type, line, io = ($logout || $stdout))
-      n = ((name || self.class.to_s) rescue self.class.to_s)
+      n = ((name || self.class.to_s) rescue self.class.ancestors.inspect)
       n = n.split('::').last
-      n = n[0...12].ljust(12)
+      # n = n[0...12].ljust(12)
       c = caller[1].split('`').last.sub("'",'').strip[0...12].ljust(12)
       #io.puts "#{type}.#{thread_name}.#{now}.#{object_id} | #{n}.#{c} | #{line}"
       class_name = (self.class.to_s.split('::')[-2..-1].join('::') rescue self.class.to_s)[0...12].ljust(12)

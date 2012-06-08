@@ -10,19 +10,12 @@ module Apparatus
 
       def self.find(name)
         MidiSystem.get_midi_device_info.each do |inf|
-          info inf.get_name
           if inf.get_name == name
             if device = MidiSystem.get_midi_device(inf)
-              info device.get_max_transmitters
-              info device.get_max_receivers
-              if self.class == Input
-                if device.get_max_transmitters != 0
-                  return new(device,name)
-                end
+              if self.ancestors.include? Input
+                return new(device,name) if device.get_max_transmitters != 0
               else
-                if device.get_max_receivers != 0
-                  return new(device,name)
-                end
+                return new(device,name) if device.get_max_receivers != 0
               end
             end
           end
@@ -31,16 +24,16 @@ module Apparatus
       end
       
       def initialize(device, name)
-        info
+        info name
         @device, @name = device, name
-        @device.open
         super()
+        @device.open
       rescue Java::JavaxSoundMidi::MidiUnavailableException
         error "#{name} could not be found"
       end
-      
+
       def close
-        # @device.close
+        @device.close
       end
     end
   end

@@ -6,6 +6,8 @@ include RSpec::Mocks::ExampleMethods
 
 require 'apparatus'
 include Apparatus
+Apparatus.start
+require 'apparatus/standard_agents'
 
 RSpec.configure do |config|
   config.filter_run_excluding pending:true
@@ -18,12 +20,13 @@ RSpec.configure do |config|
   config.backtrace_clean_patterns <<  /org\.jruby/
   config.before(:each) do
     unless EM.reactor_running?
-      Apparatus.start
+      warn 'reactor not running'
+      # Apparatus.start
       sleep 1
     end
   end
   config.after(:each) do
-    sleep 0.05
+    sleep 0.01
   end
 end
 
